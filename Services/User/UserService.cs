@@ -17,5 +17,20 @@ namespace ktpm_backend_master.Services
             var response = await _userRepository.Login(request);
             return response;
         }
+
+        public async Task<LoginResponse> Profile(string authHeader)
+        {
+            if (string.IsNullOrEmpty(authHeader))
+                return new LoginResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Missing Authorization header"
+                };
+
+            var token = authHeader.Replace("Bearer ", "").Trim();
+
+            var response = await _userRepository.Profile(token);
+            return response;
+        }
     }
 }

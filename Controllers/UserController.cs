@@ -20,8 +20,19 @@ namespace ktpm_backend_master.Controllers
         {
             var result = await _userService.Login(request);
 
-            if (result == null)
-                return Unauthorized("Invalid email or password");
+            if (!result.Success)
+                return BadRequest(result.ErrorMessage);
+
+            return Ok(result);
+        }
+
+        [HttpGet("profile")]
+        public async Task<IActionResult> Profile([FromHeader(Name = "Authorization")] string authHeader)
+        {
+            var result = await _userService.Profile(authHeader ?? "");
+
+            if (!result.Success)
+                return BadRequest(result.ErrorMessage);
 
             return Ok(result);
         }

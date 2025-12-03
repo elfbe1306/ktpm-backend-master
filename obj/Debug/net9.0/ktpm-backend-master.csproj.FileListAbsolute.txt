@@ -47,3 +47,4 @@
 /Users/ngocnhon/Desktop/HK251-252/KienTrucPhanMem/ktpm-backend-master/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/ngocnhon/Desktop/HK251-252/KienTrucPhanMem/ktpm-backend-master/bin/Debug/net9.0/System.Reactive.dll
 /Users/ngocnhon/Desktop/HK251-252/KienTrucPhanMem/ktpm-backend-master/bin/Debug/net9.0/Websocket.Client.dll
+/Users/ngocnhon/Desktop/HK251-252/KienTrucPhanMem/ktpm-backend-master/obj/Debug/net9.0/ktpm-backend-master.sourcelink.json

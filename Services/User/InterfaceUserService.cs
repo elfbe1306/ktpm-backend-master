@@ -5,5 +5,6 @@ namespace ktpm_backend_master.Services
     public interface InterfaceUserService
     {
         Task<LoginResponse> Login(LoginRequest request);
+        Task<LoginResponse> Profile(string authHeader);
     }
 }

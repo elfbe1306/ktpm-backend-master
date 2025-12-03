@@ -5,5 +5,6 @@ namespace ktpm_backend_master.Repositories
     public interface InterfaceUserRepository
     {
         Task<LoginResponse> Login(LoginRequest request);
+        Task<LoginResponse> Profile(string token);
     }
 }

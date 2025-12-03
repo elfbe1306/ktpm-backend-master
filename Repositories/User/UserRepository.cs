@@ -66,5 +66,58 @@ namespace ktpm_backend_master.Repositories
                 };
             }
         }
+
+        public async Task<LoginResponse> Profile(string token)
+        {
+            try
+            {
+                var user = await _supabaseService.GetClient().Auth.GetUser(token);
+
+                if (user == null || user.Id == null)
+                {
+                    return new LoginResponse
+                    {
+                        Success = false,
+                        ErrorMessage = "Invalid or expired token"
+                    };
+                }
+
+                var userId = Guid.Parse(user.Id);
+                var getUser = await _supabaseService.GetClient().From<NewUser>().Where(u => u.Id == userId).Single();
+
+                return new LoginResponse
+                {
+                    UserId = user.Id,
+                    AccessToken = token,
+                    Name = getUser?.Name ?? "",
+                    Email = getUser?.Email ?? "",
+                    createdAt = getUser?.CreatedAt ?? "",
+                    Success = true,
+                };
+            }
+            catch (GotrueException ex)
+            {
+                string msg = "An error occurred";
+
+                try
+                {
+                    using var jsonDoc = JsonDocument.Parse(ex.Message);
+                    var root = jsonDoc.RootElement;
+
+                    if (root.TryGetProperty("msg", out var msgProp))
+                        msg = msgProp.GetString() ?? msg;
+                }
+                catch
+                {
+                    msg = ex.Message;
+                }
+
+                return new LoginResponse
+                {
+                    Success = false,
+                    ErrorMessage = msg
+                };
+            }
+        }
     }
 }
