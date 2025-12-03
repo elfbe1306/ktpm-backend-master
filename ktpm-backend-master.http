@@ -1,0 +1,11 @@
+@ktpm_backend_master_HostAddress = http://localhost:5174
+
+POST {{ktpm_backend_master_HostAddress}}/api/user/login
+Content-Type: application/json
+
+{
+    "email": "test123@gmail.com",
+    "password": "123456"
+}
+
+###
