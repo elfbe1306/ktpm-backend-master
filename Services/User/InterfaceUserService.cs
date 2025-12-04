@@ -1,10 +1,11 @@
+using ktpm_backend_master.Common;
 using ktpm_backend_master.DTO;
 
-namespace ktpm_backend_master.Services
+namespace ktpm_backend_master.Services.User
 {
-    public interface InterfaceUserService
+    public interface IUserService
     {
-        Task<LoginResponse> Login(LoginRequest request);
-        Task<LoginResponse> Profile(string authHeader);
+        Task<Result<LoginResponse>> Login(LoginRequest request);
+        Task<Result<LoginResponse>> Profile(string authHeader);
     }
 }

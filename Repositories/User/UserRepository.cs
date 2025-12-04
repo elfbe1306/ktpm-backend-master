@@ -1,11 +1,12 @@
 using ktpm_backend_master.DTO;
-using System.Text.Json;
 using Supabase.Gotrue.Exceptions;
 using ktpm_backend_master.Models;
+using ktpm_backend_master.Repositories.User;
+using ktpm_backend_master.Common;
 
 namespace ktpm_backend_master.Repositories
 {
-    public class UserRepository : InterfaceUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly SupabaseClientService _supabaseService;
 
@@ -14,61 +15,38 @@ namespace ktpm_backend_master.Repositories
             _supabaseService = supabaseService;
         }
 
-        public async Task<LoginResponse> Login(LoginRequest request)
+        public async Task<Result<LoginResponse>> Login(LoginRequest request)
         {
             try
             {
                 var response = await _supabaseService.GetClient().Auth.SignIn(request.Email, request.Password);
 
-                if (response == null || response.User == null || response.User.Id == null || response.AccessToken == null)
+                if (response == null || response.User == null || response.User.Id == null)
                 {
-                    return new LoginResponse
-                    {
-                        Success = false,
-                        ErrorMessage = "Invalid email or password"
-                    };
+                    return Result<LoginResponse>.Fail("Invalid email or password");
                 }
 
                 var userId = Guid.Parse(response.User.Id);
-                var user = await _supabaseService.GetClient().From<NewUser>().Where(u => u.Id == userId).Single();
+                var getUser = await _supabaseService.GetClient().From<NewUser>().Where(u => u.Id == userId).Single();
 
-                return new LoginResponse
+                return Result<LoginResponse>.Ok(new LoginResponse
                 {
                     UserId = response.User.Id,
-                    AccessToken = response.AccessToken,
-                    Name = user?.Name ?? "",
-                    Email = user?.Email ?? "",
-                    CreatedAt = user?.CreatedAt ?? "",
-                    Role = user?.Role ?? "",
-                    Success = true,
-                };
+                    AccessToken = response?.AccessToken ?? "",
+                    Name = getUser?.Name ?? "",
+                    Email = getUser?.Email ?? "",
+                    CreatedAt = getUser?.CreatedAt ?? "",
+                    Role = getUser?.Role ?? "",
+                });
             }
             catch (GotrueException ex)
             {
-                string msg = "An error occurred";
 
-                try
-                {
-                    using var jsonDoc = JsonDocument.Parse(ex.Message);
-                    var root = jsonDoc.RootElement;
-
-                    if (root.TryGetProperty("msg", out var msgProp))
-                        msg = msgProp.GetString() ?? msg;
-                }
-                catch
-                {
-                    msg = ex.Message;
-                }
-
-                return new LoginResponse
-                {
-                    Success = false,
-                    ErrorMessage = msg
-                };
+                return Result<LoginResponse>.Fail(ex.Message);
             }
         }
 
-        public async Task<LoginResponse> Profile(string token)
+        public async Task<Result<LoginResponse>> Profile(string token)
         {
             try
             {
@@ -76,17 +54,13 @@ namespace ktpm_backend_master.Repositories
 
                 if (user == null || user.Id == null)
                 {
-                    return new LoginResponse
-                    {
-                        Success = false,
-                        ErrorMessage = "Invalid or expired token"
-                    };
+                    return Result<LoginResponse>.Fail("Invalid or expired token");
                 }
 
                 var userId = Guid.Parse(user.Id);
                 var getUser = await _supabaseService.GetClient().From<NewUser>().Where(u => u.Id == userId).Single();
 
-                return new LoginResponse
+                return Result<LoginResponse>.Ok(new LoginResponse
                 {
                     UserId = user.Id,
                     AccessToken = token,
@@ -94,31 +68,11 @@ namespace ktpm_backend_master.Repositories
                     Email = getUser?.Email ?? "",
                     CreatedAt = getUser?.CreatedAt ?? "",
                     Role = getUser?.Role ?? "",
-                    Success = true,
-                };
+                });
             }
             catch (GotrueException ex)
             {
-                string msg = "An error occurred";
-
-                try
-                {
-                    using var jsonDoc = JsonDocument.Parse(ex.Message);
-                    var root = jsonDoc.RootElement;
-
-                    if (root.TryGetProperty("msg", out var msgProp))
-                        msg = msgProp.GetString() ?? msg;
-                }
-                catch
-                {
-                    msg = ex.Message;
-                }
-
-                return new LoginResponse
-                {
-                    Success = false,
-                    ErrorMessage = msg
-                };
+                return Result<LoginResponse>.Fail(ex.Message);
             }
         }
     }

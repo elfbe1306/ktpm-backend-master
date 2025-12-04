@@ -14,8 +14,6 @@ namespace ktpm_backend_master.DTO
         public string Email { get; set; } = string.Empty;
         public string CreatedAt { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
-        public bool Success { get; set; }
-        public string ErrorMessage { get; set; } = string.Empty;
     }
 }
 

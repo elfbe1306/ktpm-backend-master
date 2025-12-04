@@ -1,15 +1,17 @@
 using ktpm_backend_master;
 using ktpm_backend_master.Repositories;
 using ktpm_backend_master.Repositories.Course;
+using ktpm_backend_master.Repositories.User;
 using ktpm_backend_master.Services;
 using ktpm_backend_master.Services.Course;
+using ktpm_backend_master.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<SupabaseClientService>();
-builder.Services.AddScoped<InterfaceUserRepository, UserRepository>();
-builder.Services.AddScoped<InterfaceUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 

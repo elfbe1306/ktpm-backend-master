@@ -1,5 +1,6 @@
 using ktpm_backend_master.DTO;
 using ktpm_backend_master.Services;
+using ktpm_backend_master.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ktpm_backend_master.Controllers
@@ -8,9 +9,9 @@ namespace ktpm_backend_master.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly InterfaceUserService _userService;
+        private readonly IUserService _userService;
 
-        public UserController(InterfaceUserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
@@ -19,10 +20,6 @@ namespace ktpm_backend_master.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await _userService.Login(request);
-
-            if (!result.Success)
-                return BadRequest(new { message = result.ErrorMessage });
-
             return Ok(result);
         }
 
@@ -30,10 +27,6 @@ namespace ktpm_backend_master.Controllers
         public async Task<IActionResult> Profile([FromHeader(Name = "Authorization")] string authHeader)
         {
             var result = await _userService.Profile(authHeader ?? "");
-
-            if (!result.Success)
-                return BadRequest(result.ErrorMessage);
-
             return Ok(result);
         }
     }
