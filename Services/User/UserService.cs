@@ -1,11 +1,9 @@
 using System.Text.Json;
 using ktpm_backend_master.Common;
 using ktpm_backend_master.DTO;
-using ktpm_backend_master.Repositories;
 using ktpm_backend_master.Repositories.User;
-using ktpm_backend_master.Services.User;
 
-namespace ktpm_backend_master.Services
+namespace ktpm_backend_master.Services.User
 {
     public class UserService : IUserService
     {
@@ -71,7 +69,7 @@ namespace ktpm_backend_master.Services
 
                 return Result<LoginResponse>.Fail(msg);
             }
-            
+
             return response;
         }
     }

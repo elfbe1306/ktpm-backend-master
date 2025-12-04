@@ -1,8 +1,6 @@
 using ktpm_backend_master;
-using ktpm_backend_master.Repositories;
 using ktpm_backend_master.Repositories.Course;
 using ktpm_backend_master.Repositories.User;
-using ktpm_backend_master.Services;
 using ktpm_backend_master.Services.Course;
 using ktpm_backend_master.Services.User;
 

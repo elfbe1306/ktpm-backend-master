@@ -4,7 +4,7 @@ using ktpm_backend_master.Models;
 using ktpm_backend_master.Repositories.User;
 using ktpm_backend_master.Common;
 
-namespace ktpm_backend_master.Repositories
+namespace ktpm_backend_master.Repositories.User
 {
     public class UserRepository : IUserRepository
     {
