@@ -38,7 +38,8 @@ namespace ktpm_backend_master.Repositories
                     AccessToken = response.AccessToken,
                     Name = user?.Name ?? "",
                     Email = user?.Email ?? "",
-                    createdAt = user?.CreatedAt ?? "",
+                    CreatedAt = user?.CreatedAt ?? "",
+                    Role = user?.Role ?? "",
                     Success = true,
                 };
             }
@@ -91,7 +92,8 @@ namespace ktpm_backend_master.Repositories
                     AccessToken = token,
                     Name = getUser?.Name ?? "",
                     Email = getUser?.Email ?? "",
-                    createdAt = getUser?.CreatedAt ?? "",
+                    CreatedAt = getUser?.CreatedAt ?? "",
+                    Role = getUser?.Role ?? "",
                     Success = true,
                 };
             }

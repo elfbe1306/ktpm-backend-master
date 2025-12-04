@@ -21,7 +21,7 @@ namespace ktpm_backend_master.Controllers
             var result = await _userService.Login(request);
 
             if (!result.Success)
-                return BadRequest(result.ErrorMessage);
+                return BadRequest(new { message = result.ErrorMessage });
 
             return Ok(result);
         }

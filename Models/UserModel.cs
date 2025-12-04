@@ -18,5 +18,8 @@ namespace ktpm_backend_master.Models
 
         [Column("createdAt")]
         public string CreatedAt { get; set; } = string.Empty;
+
+        [Column("role")]
+        public string Role { get; set; } = string.Empty;
     }
 }
