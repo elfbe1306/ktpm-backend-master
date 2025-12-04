@@ -15,3 +15,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsImtpZCI6InV2UXFTVjRTUmhyVGpZSm4iLCJ0eX
 
 ###
 
+GET {{ktpm_backend_master_HostAddress}}/api/course/303625b1-13d0-4e33-84b8-531e724532b4
+Content-Type: application/json
