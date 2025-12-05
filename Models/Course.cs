@@ -14,7 +14,7 @@ namespace ktpm_backend_master.Models
         public string Name { get; set; } = string.Empty;
 
         [Column("class")]
-        public string Class { get; set; } = string.Empty;
+        public string ClassName { get; set; } = string.Empty;
 
         [Column("createdAt")]
         public string CreatedAt { get; set; } = string.Empty;

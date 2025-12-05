@@ -21,7 +21,7 @@ namespace ktpm_backend_master.Repositories.Course
             {
                 Id = c.Id.ToString(),
                 Name = c.Name,
-                Class = c.Class,
+                ClassName = c.ClassName,
                 CreatedAt = c.CreatedAt
             }).ToArray();
 
