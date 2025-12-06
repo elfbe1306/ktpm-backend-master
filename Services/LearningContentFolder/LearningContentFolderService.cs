@@ -15,8 +15,20 @@ namespace ktpm_backend_master.Services.LearningContentFolder
 
         public async Task<Result<LearningContentFolderItem[]>> GetAllLearningContentFolder(string courseId)
         {
-            var response = await _learningContentFolderRepository.GetAllLearningContentFolder(Guid.Parse(courseId));
-            return response;
+            var folderResponse = await _learningContentFolderRepository.GetAllLearningContentFolder(Guid.Parse(courseId));
+
+            if (!folderResponse.Success) return Result<LearningContentFolderItem[]>.Fail(folderResponse.Error);
+
+            var folders = folderResponse.Data!;
+
+            foreach (var folder in folders)
+            {
+                var contentResponse = await _learningContentFolderRepository.GetLearningContentsByFolderId(Guid.Parse(folder.Id));
+
+                folder.Contents = contentResponse.Success ? contentResponse.Data! : [];
+            }
+
+            return Result<LearningContentFolderItem[]>.Ok(folders);
         }
     }
 }
