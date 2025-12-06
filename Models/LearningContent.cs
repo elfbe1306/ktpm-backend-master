@@ -7,11 +7,13 @@ namespace ktpm_backend_master.Models
     public class LearningContentTable : BaseModel
     {
         [PrimaryKey("id", false)]
-        [Column("id")]
         public Guid Id { get; set; }
 
         [Column("topic")]
         public string Topic { get; set; } = string.Empty;
+
+        [Column("description")]
+        public string Description { get; set; } = string.Empty;
 
         [Column("url")]
         public string Url { get; set; } = string.Empty;

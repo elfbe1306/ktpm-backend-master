@@ -1,8 +1,10 @@
 using ktpm_backend_master;
 using ktpm_backend_master.Repositories.Course;
+using ktpm_backend_master.Repositories.LearningContent;
 using ktpm_backend_master.Repositories.LearningContentFolder;
 using ktpm_backend_master.Repositories.User;
 using ktpm_backend_master.Services.Course;
+using ktpm_backend_master.Services.LearningContent;
 using ktpm_backend_master.Services.LearningContentFolder;
 using ktpm_backend_master.Services.User;
 
@@ -16,6 +18,8 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ILearningContentFolderRepository, LearningContentFolderRepository>();
 builder.Services.AddScoped<ILearningContentFolderService, LearningContentFolderService>();
+builder.Services.AddScoped<ILearningContentRepository, LearningContentRepository>();
+builder.Services.AddScoped<ILearningContentService, LearningContentService>();
 
 builder.Services.AddCors(options =>
 {

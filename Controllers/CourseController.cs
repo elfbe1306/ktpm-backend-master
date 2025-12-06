@@ -1,4 +1,6 @@
+using ktpm_backend_master.DTO.LearningContent;
 using ktpm_backend_master.Services.Course;
+using ktpm_backend_master.Services.LearningContent;
 using ktpm_backend_master.Services.LearningContentFolder;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +12,13 @@ namespace ktpm_backend_master.Controllers
     {
         private readonly ICourseService _courseService;
         private readonly ILearningContentFolderService _learningContentFolderService;
+        private readonly ILearningContentService _learningContentService;
 
-        public CourseController(ICourseService courseService, ILearningContentFolderService learningContentFolderService)
+        public CourseController(ICourseService courseService, ILearningContentFolderService learningContentFolderService, ILearningContentService learningContentService)
         {
             _courseService = courseService;
             _learningContentFolderService = learningContentFolderService;
+            _learningContentService = learningContentService;
         }
 
         [HttpGet("{id}")]
@@ -28,6 +32,13 @@ namespace ktpm_backend_master.Controllers
         public async Task<IActionResult> GetAllLearningContentFolder([FromRoute] string id)
         {
             var response = await _learningContentFolderService.GetAllLearningContentFolder(id);
+            return Ok(response);
+        }
+
+        [HttpPost("content/create/{folderId}")]
+        public async Task<IActionResult> CreateLearningContent([FromRoute] string folderId, [FromForm] CreateLearningContentRequest request)
+        {
+            var response = await _learningContentService.CreateLearningContent(folderId, request);
             return Ok(response);
         }
     }
