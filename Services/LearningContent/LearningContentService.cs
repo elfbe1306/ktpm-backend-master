@@ -16,7 +16,10 @@ namespace ktpm_backend_master.Services.LearningContent
 
         public async Task<Result<LearningContentItem>> CreateLearningContent(string folderId, CreateLearningContentRequest request)
         {
-            var newRequest = new LearningContentTable
+            if (request.TypeContent != "video" && request.File == null)
+                return Result<LearningContentItem>.Fail("File is required for this content type.");
+                
+            var newContent = new LearningContentTable
             {
                 Topic = request.Topic,
                 Description = request.Description,
@@ -25,8 +28,22 @@ namespace ktpm_backend_master.Services.LearningContent
                 LearningContentFolderId = Guid.Parse(folderId),
                 CreatedAt = DateTime.UtcNow.ToString()
             };
-            var response = await _learningContentRepository.CreateLearningContentWithoutFile(newRequest);
-            return response;
+
+            var insertContent = await _learningContentRepository.CreateLearningContentWithoutFile(newContent);
+            if (request.TypeContent == "video")
+            {
+                return insertContent;
+            }
+
+            var insertedId = insertContent?.Data?.Id;
+            if (insertedId == null) return Result<LearningContentItem>.Fail("Missing Learning Content Id");
+            if (request.File == null) return Result<LearningContentItem>.Fail("File is required for this content type.");
+
+            var insertFileUrl = await _learningContentRepository.InsertFile(insertedId, request.File);
+
+            var final = await _learningContentRepository.UpdateLearningContentFileUrl(Guid.Parse(insertedId), insertFileUrl);
+
+            return final;
         }
     }
 }

@@ -8,5 +8,7 @@ namespace ktpm_backend_master.Repositories.LearningContent
     {
         Task<Result<LearningContentItem[]>> GetLearningContentsByFolderId(Guid folderId);
         Task<Result<LearningContentItem>> CreateLearningContentWithoutFile(LearningContentTable learningContentObject);
+        Task<string> InsertFile(string learningContentId, IFormFile file);
+        Task<Result<LearningContentItem>> UpdateLearningContentFileUrl(Guid learningContentId, string publicUrl);
     }
 }
