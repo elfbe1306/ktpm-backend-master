@@ -44,5 +44,21 @@ namespace ktpm_backend_master.Repositories.LearningContentFolder
                 FolderName = response.Models.FirstOrDefault()?.FolderName ?? "",
             });
         }
+
+        public async Task<Result<LearningContentFolderItem>> UpdateLearningContentFolder(Guid folderId, string folderName)
+        {
+            var response = await _supabaseService.GetClient().From<LearningContentFolderTable>().Where(l => l.Id == folderId).Single();
+
+            if (response == null) return Result<LearningContentFolderItem>.Fail("Fail to get learning content folder");
+            response.FolderName = folderName;
+
+            await response.Update<LearningContentFolderTable>();
+
+            return Result<LearningContentFolderItem>.Ok(new LearningContentFolderItem
+            {
+                Id = response.Id.ToString(),
+                FolderName = response.FolderName
+            });
+        }
     }
 }

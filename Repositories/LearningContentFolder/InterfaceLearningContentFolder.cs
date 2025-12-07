@@ -6,6 +6,7 @@ namespace ktpm_backend_master.Repositories.LearningContentFolder
     public interface ILearningContentFolderRepository
     {
         Task<Result<LearningContentFolderItem[]>> GetAllLearningContentFolder(Guid courseId);
-        Task<Result<LearningContentFolderItem>> CreateLearningContentFolder(Guid courseId, string topic);
+        Task<Result<LearningContentFolderItem>> CreateLearningContentFolder(Guid courseId, string folderName);
+        Task<Result<LearningContentFolderItem>> UpdateLearningContentFolder(Guid folderId, string folderName);
     }
 }

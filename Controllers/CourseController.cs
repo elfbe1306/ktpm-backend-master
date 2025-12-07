@@ -43,6 +43,13 @@ namespace ktpm_backend_master.Controllers
             return Ok(response);
         }
 
+        [HttpPut("folder/{folderId}/update")]
+        public async Task<IActionResult> UpdateLearningContentFolder([FromRoute] string folderId, [FromBody] LearningContentCreateRequest request)
+        {
+            var response = await _learningContentFolderService.UpdateLearningContentFolder(folderId, request.FolderName);
+            return Ok(response);
+        }
+
         [HttpPost("content/create/{folderId}")]
         public async Task<IActionResult> CreateLearningContent([FromRoute] string folderId, [FromForm] CreateLearningContentRequest request)
         {

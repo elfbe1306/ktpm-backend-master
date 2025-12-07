@@ -7,5 +7,6 @@ namespace ktpm_backend_master.Services.LearningContentFolder
     {
         Task<Result<LearningContentFolderItem[]>> GetAllLearningContentFolder(string courseId);
         Task<Result<LearningContentFolderItem>> CreateLearningContentFolder(string courseId, string folderName);
+        Task<Result<LearningContentFolderItem>> UpdateLearningContentFolder(string folderId, string folderName);
     }
 }
