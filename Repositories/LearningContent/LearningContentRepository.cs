@@ -69,7 +69,7 @@ namespace ktpm_backend_master.Repositories.LearningContent
             response.Url = publicUrl;
             await response.Update<LearningContentTable>();
 
-            return Result<LearningContentItem>.Ok( new LearningContentItem
+            return Result<LearningContentItem>.Ok(new LearningContentItem
             {
                 Id = response.Id.ToString(),
                 Topic = response.Topic,
@@ -78,6 +78,23 @@ namespace ktpm_backend_master.Repositories.LearningContent
                 Url = response.Url,
                 CreatedAt = response.CreatedAt
             });
+        }
+
+        public async Task<Result<string>> DeleteLearningContent(Guid contentId)
+        {
+            await _supabaseService.GetClient().From<LearningContentTable>().Where(l => l.Id == contentId).Delete();
+            return Result<string>.Ok(contentId.ToString());
+        }
+
+        public async Task DeleteFile(string contentId)
+        {
+            var files = await _supabaseService.GetClient().Storage.From("learningContent").List(contentId);
+
+            if (files == null) return;
+
+            var paths = files.Select(f => $"{contentId}/{f.Name}").ToList();
+
+            await _supabaseService.GetClient().Storage.From("learningContent").Remove(paths);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace ktpm_backend_master.Services.LearningContent
         {
             if (request.TypeContent != "video" && request.File == null)
                 return Result<LearningContentItem>.Fail("File is required for this content type.");
-                
+
             var newContent = new LearningContentTable
             {
                 Topic = request.Topic,
@@ -44,6 +44,18 @@ namespace ktpm_backend_master.Services.LearningContent
             var final = await _learningContentRepository.UpdateLearningContentFileUrl(Guid.Parse(insertedId), insertFileUrl);
 
             return final;
+        }
+
+        public async Task<Result<string>> DeleteLearningContent(string contentId, string typeContent)
+        {
+            var response = await _learningContentRepository.DeleteLearningContent(Guid.Parse(contentId));
+
+            if (typeContent != "video")
+            {
+                await _learningContentRepository.DeleteFile(contentId);
+            }
+
+            return response;
         }
     }
 }

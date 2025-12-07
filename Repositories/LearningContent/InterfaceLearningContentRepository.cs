@@ -10,5 +10,7 @@ namespace ktpm_backend_master.Repositories.LearningContent
         Task<Result<LearningContentItem>> CreateLearningContentWithoutFile(LearningContentTable learningContentObject);
         Task<string> InsertFile(string learningContentId, IFormFile file);
         Task<Result<LearningContentItem>> UpdateLearningContentFileUrl(Guid learningContentId, string publicUrl);
+        Task<Result<string>> DeleteLearningContent(Guid contentId);
+        Task DeleteFile(string contentId);
     }
 }

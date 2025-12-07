@@ -18,4 +18,9 @@ namespace ktpm_backend_master.DTO.LearningContent
         public string? Url { get; set; }
         public IFormFile? File { get; set; }
     }
+
+    public class DeleteLearningContentRequest
+    {
+        public string TypeContent { get; set; } = string.Empty;
+    }
 }
