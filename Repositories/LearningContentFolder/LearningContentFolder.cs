@@ -60,5 +60,11 @@ namespace ktpm_backend_master.Repositories.LearningContentFolder
                 FolderName = response.FolderName
             });
         }
+
+        public async Task<Result<string>> DeleteLearningContentFolder(Guid folderId)
+        {
+            await _supabaseService.GetClient().From<LearningContentFolderTable>().Where(l => l.Id == folderId).Delete();
+            return Result<string>.Ok(folderId.ToString());
+        }
     }
 }

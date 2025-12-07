@@ -50,6 +50,13 @@ namespace ktpm_backend_master.Controllers
             return Ok(response);
         }
 
+        [HttpDelete("folder/{folderId}/delete")]
+        public async Task<IActionResult> DeleteLearningContentFolder([FromRoute] string folderId)
+        {
+            var response = await _learningContentFolderService.DeleteLearningContentFolder(folderId);
+            return Ok(response);
+        }
+
         [HttpPost("content/create/{folderId}")]
         public async Task<IActionResult> CreateLearningContent([FromRoute] string folderId, [FromForm] CreateLearningContentRequest request)
         {

@@ -45,5 +45,31 @@ namespace ktpm_backend_master.Services.LearningContentFolder
             var response = await _learningContentFolderRepository.UpdateLearningContentFolder(Guid.Parse(folderId), folderName);
             return response;
         }
+
+        public async Task<Result<string>> DeleteLearningContentFolder(string folderId)
+        {
+            var contentResponse = await _learningContentRepository.GetLearningContentsByFolderId(Guid.Parse(folderId));
+
+            if (contentResponse.Data == null)
+            {
+                return Result<string>.Ok(folderId);
+            }
+
+            foreach (var learningContent in contentResponse.Data)
+            {
+                if (learningContent.TypeContent == "video")
+                {
+                    await _learningContentRepository.DeleteLearningContent(Guid.Parse(learningContent.Id));
+                }
+                else
+                {
+                    await _learningContentRepository.DeleteFile(learningContent.Id);
+                }
+            }
+
+            var response = await _learningContentFolderRepository.DeleteLearningContentFolder(Guid.Parse(folderId));
+
+            return response;
+        }
     }
 }
