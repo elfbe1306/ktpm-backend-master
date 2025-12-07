@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ktpm-backend-master")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2be4350f1fdd8c18bfa26c5ced3f868e7f36af1e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2810a2a1115d441f630e1e3dd869da8dc17307f")]
 [assembly: System.Reflection.AssemblyProductAttribute("ktpm-backend-master")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ktpm-backend-master")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

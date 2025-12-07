@@ -26,5 +26,23 @@ namespace ktpm_backend_master.Repositories.LearningContentFolder
 
             return Result<LearningContentFolderItem[]>.Ok(courses);
         }
+
+        public async Task<Result<LearningContentFolderItem>> CreateLearningContentFolder(Guid courseId, string folderName)
+        {
+
+            var response = await _supabaseService.GetClient()
+                .From<LearningContentFolderTable>()
+                .Insert(new LearningContentFolderTable
+                {
+                    FolderName = folderName,
+                    CourseId = courseId
+                }, new Supabase.Postgrest.QueryOptions { Returning = Supabase.Postgrest.QueryOptions.ReturnType.Representation });
+
+            return Result<LearningContentFolderItem>.Ok(new LearningContentFolderItem
+            {
+                Id = response.Models.FirstOrDefault()?.Id.ToString() ?? "",
+                FolderName = response.Models.FirstOrDefault()?.FolderName ?? "",
+            });
+        }
     }
 }

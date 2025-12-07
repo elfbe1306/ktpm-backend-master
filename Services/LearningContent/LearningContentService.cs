@@ -22,9 +22,9 @@ namespace ktpm_backend_master.Services.LearningContent
             var newContent = new LearningContentTable
             {
                 Topic = request.Topic,
-                Description = request.Description,
+                Description = request.Description ?? "",
                 TypeContent = request.TypeContent,
-                Url = request.Url,
+                Url = request.Url ?? "",
                 LearningContentFolderId = Guid.Parse(folderId),
                 CreatedAt = DateTime.UtcNow.ToString()
             };

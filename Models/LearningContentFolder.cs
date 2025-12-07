@@ -7,7 +7,6 @@ namespace ktpm_backend_master.Models
     public class LearningContentFolderTable : BaseModel
     {
         [PrimaryKey("id", false)]
-        [Column("id")]
         public Guid Id { get; set; }
 
         [Column("folderName")]

@@ -1,4 +1,5 @@
 using ktpm_backend_master.DTO.LearningContent;
+using ktpm_backend_master.DTO.LearningContentFolder;
 using ktpm_backend_master.Services.Course;
 using ktpm_backend_master.Services.LearningContent;
 using ktpm_backend_master.Services.LearningContentFolder;
@@ -32,6 +33,13 @@ namespace ktpm_backend_master.Controllers
         public async Task<IActionResult> GetAllLearningContentFolder([FromRoute] string id)
         {
             var response = await _learningContentFolderService.GetAllLearningContentFolder(id);
+            return Ok(response);
+        }
+
+        [HttpPost("folder/{id}/create")]
+        public async Task<IActionResult> CreateLearningContentFolder([FromRoute] string id, [FromBody] LearningContentCreateRequest request)
+        {
+            var response = await _learningContentFolderService.CreateLearningContentFolder(id, request.FolderName);
             return Ok(response);
         }
 

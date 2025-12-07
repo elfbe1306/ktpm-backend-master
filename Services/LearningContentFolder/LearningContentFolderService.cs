@@ -33,5 +33,11 @@ namespace ktpm_backend_master.Services.LearningContentFolder
 
             return Result<LearningContentFolderItem[]>.Ok(folders);
         }
+
+        public async Task<Result<LearningContentFolderItem>> CreateLearningContentFolder(string courseId, string folderName)
+        {
+            var response = await _learningContentFolderRepository.CreateLearningContentFolder(Guid.Parse(courseId), folderName);
+            return response;
+        }
     }
 }

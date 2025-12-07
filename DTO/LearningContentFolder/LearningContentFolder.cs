@@ -9,4 +9,8 @@ namespace ktpm_backend_master.DTO.LearningContentFolder
 
         public LearningContentItem[] Contents { get; set; } = [];
     }
+
+    public class LearningContentCreateRequest {
+        public string FolderName { get; set; } = string.Empty;
+    }
 }
