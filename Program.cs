@@ -2,10 +2,12 @@ using ktpm_backend_master;
 using ktpm_backend_master.Repositories.Course;
 using ktpm_backend_master.Repositories.LearningContent;
 using ktpm_backend_master.Repositories.LearningContentFolder;
+using ktpm_backend_master.Repositories.Quiz;
 using ktpm_backend_master.Repositories.User;
 using ktpm_backend_master.Services.Course;
 using ktpm_backend_master.Services.LearningContent;
 using ktpm_backend_master.Services.LearningContentFolder;
+using ktpm_backend_master.Services.Quiz;
 using ktpm_backend_master.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +22,8 @@ builder.Services.AddScoped<ILearningContentFolderRepository, LearningContentFold
 builder.Services.AddScoped<ILearningContentFolderService, LearningContentFolderService>();
 builder.Services.AddScoped<ILearningContentRepository, LearningContentRepository>();
 builder.Services.AddScoped<ILearningContentService, LearningContentService>();
+builder.Services.AddScoped<IQuizService, QuizService>();
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 
 builder.Services.AddCors(options =>
 {

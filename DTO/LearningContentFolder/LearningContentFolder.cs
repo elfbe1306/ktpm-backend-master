@@ -1,4 +1,5 @@
 using ktpm_backend_master.DTO.LearningContent;
+using ktpm_backend_master.DTO.Quiz;
 
 namespace ktpm_backend_master.DTO.LearningContentFolder
 {
@@ -8,6 +9,7 @@ namespace ktpm_backend_master.DTO.LearningContentFolder
         public string FolderName { get; set; } = string.Empty;
 
         public LearningContentItem[] Contents { get; set; } = [];
+        public QuizFolder[] QuizFolders { get; set; } = [];
     }
 
     public class LearningContentCreateRequest

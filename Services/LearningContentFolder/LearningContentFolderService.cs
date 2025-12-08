@@ -2,6 +2,7 @@ using ktpm_backend_master.Common;
 using ktpm_backend_master.DTO.LearningContentFolder;
 using ktpm_backend_master.Repositories.LearningContent;
 using ktpm_backend_master.Repositories.LearningContentFolder;
+using ktpm_backend_master.Repositories.Quiz;
 
 namespace ktpm_backend_master.Services.LearningContentFolder
 {
@@ -9,11 +10,13 @@ namespace ktpm_backend_master.Services.LearningContentFolder
     {
         private readonly ILearningContentFolderRepository _learningContentFolderRepository;
         private readonly ILearningContentRepository _learningContentRepository;
+        private readonly IQuizRepository _quizRepository;
 
-        public LearningContentFolderService(ILearningContentFolderRepository learningContentFolderRepository, ILearningContentRepository learningContentRepository)
+        public LearningContentFolderService(ILearningContentFolderRepository learningContentFolderRepository, ILearningContentRepository learningContentRepository, IQuizRepository quizRepository)
         {
             _learningContentFolderRepository = learningContentFolderRepository;
             _learningContentRepository = learningContentRepository;
+            _quizRepository = quizRepository;
         }
 
         public async Task<Result<LearningContentFolderItem[]>> GetAllLearningContentFolder(string courseId)
@@ -29,6 +32,22 @@ namespace ktpm_backend_master.Services.LearningContentFolder
                 var contentResponse = await _learningContentRepository.GetLearningContentsByFolderId(Guid.Parse(folder.Id));
 
                 folder.Contents = contentResponse.Success ? contentResponse.Data! : [];
+            }
+
+            foreach (var folder in folders)
+            {
+                var quizFolderResponse = await _quizRepository.GetQuizFolderByFolderId(Guid.Parse(folder.Id));
+
+                folder.QuizFolders = quizFolderResponse.Success ? quizFolderResponse.Data! : [];
+
+                foreach (var quiz in folder.QuizFolders)
+                {
+                    var quizMCResponse = await _quizRepository.GetQuizMultipleChoiceByQuizId(Guid.Parse(quiz.Id));
+                    var quizSResponse = await _quizRepository.GetQuizSubmitByQuizId(Guid.Parse(quiz.Id));
+
+                    quiz.QuizMultipleChoices = quizMCResponse.Success ? quizMCResponse.Data! : [];
+                    quiz.QuizSubmits = quizSResponse.Success ? quizSResponse.Data! : [];
+                }
             }
 
             return Result<LearningContentFolderItem[]>.Ok(folders);

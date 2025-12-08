@@ -1,8 +1,10 @@
 using ktpm_backend_master.DTO.LearningContent;
 using ktpm_backend_master.DTO.LearningContentFolder;
+using ktpm_backend_master.DTO.Quiz;
 using ktpm_backend_master.Services.Course;
 using ktpm_backend_master.Services.LearningContent;
 using ktpm_backend_master.Services.LearningContentFolder;
+using ktpm_backend_master.Services.Quiz;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ktpm_backend_master.Controllers
@@ -14,12 +16,14 @@ namespace ktpm_backend_master.Controllers
         private readonly ICourseService _courseService;
         private readonly ILearningContentFolderService _learningContentFolderService;
         private readonly ILearningContentService _learningContentService;
+        private readonly IQuizService _quizService;
 
-        public CourseController(ICourseService courseService, ILearningContentFolderService learningContentFolderService, ILearningContentService learningContentService)
+        public CourseController(ICourseService courseService, ILearningContentFolderService learningContentFolderService, ILearningContentService learningContentService, IQuizService quizService)
         {
             _courseService = courseService;
             _learningContentFolderService = learningContentFolderService;
             _learningContentService = learningContentService;
+            _quizService = quizService;
         }
 
         [HttpGet("{id}")]
@@ -68,6 +72,20 @@ namespace ktpm_backend_master.Controllers
         public async Task<IActionResult> DeleteLearningContent([FromRoute] string contentId, [FromBody] DeleteLearningContentRequest request)
         {
             var response = await _learningContentService.DeleteLearningContent(contentId, request.TypeContent);
+            return Ok(response);
+        }
+
+        [HttpPut("quiz/multiplechoice/update/{quizId}")]
+        public async Task<IActionResult> UpdateQuizMultipleChoice([FromRoute] string quizId, [FromBody] UpdateQuizMultipleChoiceRequest request)
+        {
+            var response = await _quizService.UpdateQuizMultipleChoice(quizId, request);
+            return Ok(response);
+        }
+
+        [HttpPut("quiz/submit/update/{quizId}")]
+        public async Task<IActionResult> UpdateQuizSubmit([FromRoute] string quizId, [FromBody] UpdateQuizSubmitChoiceRequest request)
+        {
+            var response = await _quizService.UpdateQuizSubmit(quizId, request);
             return Ok(response);
         }
     }
