@@ -7,5 +7,6 @@ namespace ktpm_backend_master.Services.Quiz
     {
         Task<Result<UpdateQuizMultipleChoiceRequest>> UpdateQuizMultipleChoice(string quizId, UpdateQuizMultipleChoiceRequest request);
         Task<Result<UpdateQuizSubmitChoiceRequest>> UpdateQuizSubmit(string quizId, UpdateQuizSubmitChoiceRequest request);
+        Task<Result<QuizFolder>> CreateQuiz(string folderId, CreateQuizRequest request);
     }
 }

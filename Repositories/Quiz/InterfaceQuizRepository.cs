@@ -10,5 +10,8 @@ namespace ktpm_backend_master.Repositories.Quiz
         Task<Result<QuizSubmit[]>> GetQuizSubmitByQuizId(Guid quizId);
         Task<Result<UpdateQuizMultipleChoiceRequest>> UpdateQuizMultipleChoice(Guid quizId, UpdateQuizMultipleChoiceRequest request);
         Task<Result<UpdateQuizSubmitChoiceRequest>> UpdateQuizSubmit(Guid quizId, UpdateQuizSubmitChoiceRequest request);
+        Task<Result<QuizFolder>> CreateQuizFolder(Guid folderId, CreateQuizRequest request);
+        Task<Result<QuizMultipleChoice>> CreateQuizMultipleChoice(Guid quizId, QuizMultipleChoiceCreate request);
+        Task<Result<QuizSubmit>> CreateQuizSubmit(Guid quizId, QuizSubmitCreate request);
     }
 }

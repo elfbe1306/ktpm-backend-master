@@ -97,5 +97,78 @@ namespace ktpm_backend_master.Repositories.Quiz
             await response.Update<QuizSubmitTable>();
             return Result<UpdateQuizSubmitChoiceRequest>.Ok(request);
         }
+
+        public async Task<Result<QuizFolder>> CreateQuizFolder(Guid folderId, CreateQuizRequest request)
+        {
+            var response = await _supabaseService.GetClient().From<QuizFolderTable>().Insert(new QuizFolderTable
+            {
+                LearningContentFolderId = folderId,
+                CreatedAt = DateTime.Now.ToString(),
+                Name = request.Topic,
+                Description = request.Description,
+                TypeQuiz = request.QuizType,
+                Minutes = request.Minutes,
+                OpenTime = request.OpenTime,
+                CloseTime = request.CloseTime,
+            }, new Supabase.Postgrest.QueryOptions { Returning = Supabase.Postgrest.QueryOptions.ReturnType.Representation });
+
+            return Result<QuizFolder>.Ok(new QuizFolder
+            {
+                Id = response.Models.FirstOrDefault()?.Id.ToString() ?? "",
+                Topic = response.Models.FirstOrDefault()?.Name ?? "",
+                Description = response.Models.FirstOrDefault()?.Description ?? "",
+                Minutes = response.Models.FirstOrDefault()?.Minutes ?? 0,
+                TypeQuiz = response.Models.FirstOrDefault()?.TypeQuiz ?? "",
+                OpenTime = response.Models.FirstOrDefault()?.OpenTime ?? "",
+                CloseTime = response.Models.FirstOrDefault()?.CloseTime ?? "",
+                CreatedAt = response.Models.FirstOrDefault()?.CreatedAt ?? ""
+            });
+        }
+
+        public async Task<Result<QuizMultipleChoice>> CreateQuizMultipleChoice(Guid quizId, QuizMultipleChoiceCreate request)
+        {
+            var response = await _supabaseService.GetClient().From<QuizMultipleChoiceTable>().Insert(new QuizMultipleChoiceTable
+            {
+                Text = request.Text,
+                AnswerA = request.AnswerA,
+                AnswerB = request.AnswerB,
+                AnswerC = request.AnswerC,
+                AnswerD = request.AnswerD,
+                QuestionNumber = request.QuestionNumber,
+                QuizFolderId = quizId,
+                Answer = request.Answer
+            }, new Supabase.Postgrest.QueryOptions { Returning = Supabase.Postgrest.QueryOptions.ReturnType.Representation });
+
+            return Result<QuizMultipleChoice>.Ok(new QuizMultipleChoice
+            {
+                Text = response.Models.FirstOrDefault()?.Text ?? "",
+                AnswerA = response.Models.FirstOrDefault()?.AnswerA ?? "",
+                AnswerB = response.Models.FirstOrDefault()?.AnswerB ?? "",
+                AnswerC = response.Models.FirstOrDefault()?.AnswerC ?? "",
+                AnswerD = response.Models.FirstOrDefault()?.AnswerD ?? "",
+                QuestionNumber = response.Models.FirstOrDefault()?.QuestionNumber ?? 0,
+                Answer = response.Models.FirstOrDefault()?.Answer ?? "",
+                Id = response.Models.FirstOrDefault()?.Id.ToString() ?? ""
+            });
+        }
+
+        public async Task<Result<QuizSubmit>> CreateQuizSubmit(Guid quizId, QuizSubmitCreate request)
+        {
+            var response = await _supabaseService.GetClient().From<QuizSubmitTable>().Insert(new QuizSubmitTable
+            {
+                Text = request.Text,
+                QuestionNumber = request.QuestionNumber,
+                QuizFolderId = quizId,
+                Url = request.Url
+            }, new Supabase.Postgrest.QueryOptions { Returning = Supabase.Postgrest.QueryOptions.ReturnType.Representation });
+
+            return Result<QuizSubmit>.Ok(new QuizSubmit
+            {
+                Text = response.Models.FirstOrDefault()?.Text ?? "",
+                QuestionNumber = response.Models.FirstOrDefault()?.QuestionNumber ?? 0,
+                Url = response.Models.FirstOrDefault()?.Url ?? "",
+                Id = response.Models.FirstOrDefault()?.Id.ToString() ?? ""
+            });
+        }
     }
 }

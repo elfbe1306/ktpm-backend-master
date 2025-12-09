@@ -88,5 +88,12 @@ namespace ktpm_backend_master.Controllers
             var response = await _quizService.UpdateQuizSubmit(quizId, request);
             return Ok(response);
         }
+
+        [HttpPost("quiz/create/{folderId}")]
+        public async Task<IActionResult> CreateQuiz([FromRoute] string folderId, [FromBody] CreateQuizRequest request)
+        {
+            var response = await _quizService.CreateQuiz(folderId, request);
+            return Ok(response);
+        }
     }
 }

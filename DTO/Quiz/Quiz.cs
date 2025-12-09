@@ -50,4 +50,34 @@ namespace ktpm_backend_master.DTO.Quiz
         public string Text { get; set; } = string.Empty;
         public int QuestionNumber { get; set; }
     }
+
+    public class QuizMultipleChoiceCreate
+    {
+        public string Text { get; set; } = string.Empty;
+        public int QuestionNumber { get; set; }
+        public string AnswerA { get; set; } = string.Empty;
+        public string AnswerB { get; set; } = string.Empty;
+        public string AnswerC { get; set; } = string.Empty;
+        public string AnswerD { get; set; } = string.Empty;
+        public string Answer { get; set; } = string.Empty;
+    }
+
+    public class QuizSubmitCreate
+    {
+        public string Text { get; set; } = string.Empty;
+        public int QuestionNumber { get; set; }
+        public string Url { get; set; } = string.Empty;
+    }
+
+    public class CreateQuizRequest
+    {
+        public string Topic { get; set; } = string.Empty;
+        public string QuizType { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public int Minutes { get; set; }
+        public string OpenTime { get; set; } = string.Empty;
+        public string CloseTime { get; set; } = string.Empty;
+        public QuizMultipleChoiceCreate[] QuizMultipleChoices { get; set; } = [];
+        public QuizSubmitCreate[] QuizSubmits { get; set; } = [];
+    }
 }
